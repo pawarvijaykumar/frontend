@@ -9,7 +9,11 @@ function App() {
   const addValue=()=>{
     console.log("clicked",counter);
     //counter=counter+1;  
-    setCounter(counter+1)//(counter) 
+    setCounter(precounter=>counter+1)//(counter) 
+    setCounter(precounter=>counter+1)
+    setCounter(precounter=>counter+1)
+    setCounter(precounter=>counter+1)
+  //precounter means increase the how many u set a pre counter,changes value from how many us etprecounter
   }
   const removeValue=()=>{
     console.log("clicked",counter);
