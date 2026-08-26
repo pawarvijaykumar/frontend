@@ -11,12 +11,14 @@ function App() {
   const [to, setTo]=useState("inr")
   const [convertedAmount, setConvertedAmount]=useState(0)
   const currencyInfo = useCurrencyInfo(from)
-  const options = Object.keys(currencyInfo)
+     const options = Object.keys(currencyInfo)
+   console.log("options:", options)
+
   const swap=()=>{
     setFrom(to)
     setTo(from)
-    setConvertedAmount(amount)
     SetAmount(convertedAmount)
+    setConvertedAmount(amount)
    }
   const convert=()=>{
     setConvertedAmount(amount*currencyInfo[to])
@@ -28,7 +30,7 @@ function App() {
     <div
         className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
         style={{
-          backgroundColor:`https://imgs.search.brave.com/V3wM9yww_fcJYos8clmbu9vUf5tXvfSp3VpKV6bM9cw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC8xLzEv/Zi8yMjg5MC0zODQw/eDIxNjAtZGVza3Rv/cC00ay1icmVha2lu/Zy1iYWQtd2FsbHBh/cGVyLXBob3RvLmpw/Zw`,
+          backgroundImage:`url('https://imgs.search.brave.com/DOaVyNv8gaXTjwTpvOJxLTEwYKL839XHpqLxf9yR2eE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC8xLzEv/Zi8yMjg5MC0zODQw/eDIxNjAtZGVza3Rv/cC00ay1icmVha2lu/Zy1iYWQtd2FsbHBh/cGVyLXBob3RvLmpw/Zw')`,
 
         }}
     >
@@ -45,13 +47,13 @@ function App() {
 
                     <div className="w-full mb-1">
                         <InputBox
-                            label="From"
-                            amount={amount}
-                            currencyOptions={options}
-                            onCurrencyChange={(currency) => SetAmount(amount)}
-                            selectCurrency={from}
-                            onAmountChange={(amount)=>SetAmount(amount)}
-                        />
+                          label="From"
+                           amount={amount}
+                           currencyOptions={options}
+                           onCurrencyChange={(currency) => setFrom(currency)}   
+                           selectCurrency={from}
+                           onAmountChange={(amount)=>SetAmount(amount)}
+/>
                     </div>
                     <div className="relative w-full h-0.5">
                         <button
@@ -59,7 +61,7 @@ function App() {
                             className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-white rounded-md bg-blue-600 text-white px-2 py-0.5"
                             onClick={swap}
                         >
-                            swap//swapm the to currency from usd to inne dependopen
+                            swap
                         </button>
                     </div>
 
@@ -69,7 +71,7 @@ function App() {
                             amount={convertedAmount}
                             currencyOptions={options}
                             onCurrencyChange={(currency) => setTo(currency)}
-                            selectCurrency={from}
+                            selectCurrency={to}
                             amountDisable
                         />
                     </div>
