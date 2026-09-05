@@ -1,5 +1,5 @@
 import { Account, ID } from "appwrite";
-import { client } from "../conf.js";
+import { client } from "./config.js";
 
 const account = new Account(client);
 

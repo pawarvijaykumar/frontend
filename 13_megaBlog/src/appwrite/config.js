@@ -1,6 +1,5 @@
 import { Client, TablesDB, Storage, ID, Query } from "appwrite";
-import conf from "../conf/conf.js";
-
+import conf from "../conf/conf.js";  
 const client = new Client()
   .setEndpoint(conf.appwriteUrl)//to be connection of a server url or server ka adddres hai ek 
 
