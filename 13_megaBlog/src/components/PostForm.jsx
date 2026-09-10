@@ -2,11 +2,11 @@ import { useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Button from "../Button";
-import Input from "../Input";
-import RTE from "../RTE";
-import Select from "../Select";
-import { createPost, updatePost, uploadFile, deleteFile, getFilePreview } from "../../appwrite/config.js";
+import Button from "./Button";
+import Input from "./Input";
+import RTE from "./RTE";
+import Select from "./Select";
+import { createPost, updatePost, uploadFile, deleteFile, getFilePreview } from "../appwrite/config.js";
 
 export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({

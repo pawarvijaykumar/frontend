@@ -11,7 +11,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getCurrentUser()//means of this line is if you get userr sesion then u do lofin otherwise logout
+    getCurrentUser()//means of this line is if you get userr sesion then u do login otherwise logout
       .then((userData) => {
         console.log("User Data:", userData);
         if (userData) {

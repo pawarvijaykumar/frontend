@@ -6,7 +6,7 @@ import store from "./store/store.js";
 import App from "./App.jsx";
 import "./index.css";
 
-import Home from "./pages/Home.jsx";
+import Home from "./Home/Home.jsx";
 import { AuthLayout, Login, Signup } from "./components/index.js";
 
 const router = createBrowserRouter([
