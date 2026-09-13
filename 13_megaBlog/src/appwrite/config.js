@@ -10,13 +10,13 @@ const tablesDB = new TablesDB(client);
 const storage = new Storage(client);//means uploed or delete file 
 
 // ---------- CREATE POST ----------
-async function createPost({ title, content, featuredImage, status, userId }) {
+async function createPost({ title, content, featureImage, isdraft, userId }) {
   try {
     return await tablesDB.createRow(
       conf.appwriteDatabaseId,   // database ID
       conf.appwriteTableId,      // table ID
       ID.unique(),               // row ID (auto generate)
-      { title, content, featuredImage, status, userId }
+      { title, content, featureImage, isdraft, userId }
     );
   } catch (error) {
     console.log("Appwrite service :: createPost :: error", error);
@@ -24,13 +24,13 @@ async function createPost({ title, content, featuredImage, status, userId }) {
 }
 
 // ---------- UPDATE POST ----------
-async function updatePost(rowId, { title, content, featuredImage, status }) {
+async function updatePost(rowId, { title, content, featureImage, isdraft }) {
   try {
     return await tablesDB.updateRow(
       conf.appwriteDatabaseId,
       conf.appwriteTableId,
       rowId,
-      { title, content, featuredImage, status }
+      { title, content, featureImage, isdraft }
     );
   } catch (error) {
     console.log("Appwrite service :: updatePost :: error", error);
@@ -67,7 +67,7 @@ async function getPost(rowId) {
 }
 
 // ---------- GET ALL POSTS (published only) ----------
-async function getPosts(queries = [Query.equal("status", "published")]) {
+async function getPosts(queries = [Query.equal("isdraft", false)]) {
   try {
     return await tablesDB.listRows(
       conf.appwriteDatabaseId,

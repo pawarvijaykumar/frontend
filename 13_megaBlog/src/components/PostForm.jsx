@@ -7,6 +7,7 @@ import Input from "./Input";
 import RTE from "./RTE";
 import Select from "./Select";
 import { createPost, updatePost, uploadFile, deleteFile, getFilePreview } from "../appwrite/config.js";
+import { isDraft } from "@reduxjs/toolkit";
 
 export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -14,7 +15,7 @@ export default function PostForm({ post }) {
       title: post?.title || "",
       slug: post?.$id || "",
       content: post?.content || "",
-      status: post?.status || "Draft",
+     isdraft: post?.isdraft || "Draft",
     },
   });
 
@@ -27,12 +28,12 @@ export default function PostForm({ post }) {
       const file = data.image[0] ? await uploadFile(data.image[0]) : null;
 
       if (file) {
-        deleteFile(post.featuredImage); // purani image delete karo
+        deleteFile(post.featureImage); // purani image delete karo
       }
 
       const dbPost = await updatePost(post.$id, {
         ...data,
-        featuredImage: file ? file.$id : post.featuredImage,
+        featureImage: file ? file.$id : post.featureImage,
       });
 
       if (dbPost) {
@@ -44,7 +45,7 @@ export default function PostForm({ post }) {
 
       if (file) {
         const fileId = file.$id;
-        data.featuredImage = fileId;
+        data.featureImage = fileId;
         const dbPost = await createPost({ ...data, userId: userData.$id });
 
         if (dbPost) {
@@ -102,7 +103,7 @@ export default function PostForm({ post }) {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={getFilePreview(post.featuredImage)}
+              src={getFilePreview(post.featureImage)}
               alt={post.title}
               className="rounded-lg"
             />
@@ -113,7 +114,7 @@ export default function PostForm({ post }) {
           options={["Draft", "Published"]}
           label="Status"
           className="mb-4"
-          {...register("status", { required: true })}
+          {...register("isdraft", { required: true })}
         />
 
         <Button

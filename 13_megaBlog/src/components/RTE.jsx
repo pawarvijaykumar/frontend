@@ -5,8 +5,8 @@ Yaad hai Input.jsx mein register("email") seedha use ho gaya tha? TinyMCE jaisa 
 
 Controller ek "bridge" hai — ye manually connect karta hai ki jab editor mein type ho, form ki value bhi update ho.*/
 
-
 import React from "react";
+import conf from "../conf/conf.js";
 import { Editor } from "@tinymce/tinymce-react";
 import { Controller } from "react-hook-form";
 
@@ -20,6 +20,7 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
         control={control}
         render={({ field: { onChange } }) => (
           <Editor
+           apiKey={conf.tinymceApiKey}
             initialValue={defaultValue}
             init={{
               height: 500,
