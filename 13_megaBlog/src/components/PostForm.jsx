@@ -5,9 +5,7 @@ import { useSelector } from "react-redux";
 import Button from "./Button";
 import Input from "./Input";
 import RTE from "./RTE";
-import Select from "./Select";
 import { createPost, updatePost, uploadFile, deleteFile, getFilePreview } from "../appwrite/config.js";
-import { isDraft } from "@reduxjs/toolkit";
 
 export default function PostForm({ post }) {
   const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
@@ -15,7 +13,7 @@ export default function PostForm({ post }) {
       title: post?.title || "",
       slug: post?.$id || "",
       content: post?.content || "",
-     isdraft: post?.isdraft || "Draft",
+      isdraft: post ? post.isdraft : true,   // 👈 naya post = default Draft (true)
     },
   });
 
@@ -23,16 +21,18 @@ export default function PostForm({ post }) {
   const userData = useSelector((state) => state.auth.userData);
 
   const submit = async (data) => {
-    // Case 1: Editing an existing post
     if (post) {
+      // EDIT MODE
       const file = data.image[0] ? await uploadFile(data.image[0]) : null;
 
       if (file) {
-        deleteFile(post.featureImage); // purani image delete karo
+        deleteFile(post.featureImage);
       }
 
       const dbPost = await updatePost(post.$id, {
-        ...data,
+        title: data.title,
+        content: data.content,
+        isdraft: data.isdraft,
         featureImage: file ? file.$id : post.featureImage,
       });
 
@@ -40,13 +40,18 @@ export default function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      // Case 2: Creating a new post
+      // CREATE MODE
       const file = await uploadFile(data.image[0]);
 
       if (file) {
         const fileId = file.$id;
-        data.featureImage = fileId;
-        const dbPost = await createPost({ ...data, userId: userData.$id });
+        const dbPost = await createPost({
+          title: data.title,
+          content: data.content,
+          isdraft: data.isdraft,
+          featureImage: fileId,
+          userId: userData.$id,
+        });
 
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
@@ -110,12 +115,14 @@ export default function PostForm({ post }) {
           </div>
         )}
 
-        <Select
-          options={["Draft", "Published"]}
-          label="Status"
-          className="mb-4"
-          {...register("isdraft", { required: true })}
-        />
+        <div className="mb-4 flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="isdraft"
+            {...register("isdraft")}
+          />
+          <label htmlFor="isdraft">Save as Draft (uncheck to publish)</label>
+        </div>
 
         <Button
           type="submit"
